@@ -13,11 +13,20 @@ void scanCallback(
             
             nav_msgs::Odometry msg1;
             
-            std::default_random_engine generator1;
+            std::random_device rd;
+	    std::default_random_engine generator1;
+            generator1.seed( rd() ); //Now this is seeded differently each time.
+            std::normal_distribution<double> distribution1(0,0.05);
+            
+	    std::default_random_engine generator2;
+            generator2.seed( rd() ); //Now this is seeded differently each time.
+            std::normal_distribution<double> distribution2(0,5*(M_PI)/180);
+            
+            /*std::default_random_engine generator1;
 	    std::normal_distribution<double> distribution1(0.20,0.05);
 	    
 	    std::default_random_engine generator2;
-	    std::normal_distribution<double> distribution2(5*(M_PI)/180,2*(M_PI)/180);
+	    std::normal_distribution<double> distribution2(5*(M_PI)/180,2*(M_PI)/180);*/
             
             double a,b,c,x,y,z,w ;
             a= msg->pose.pose.position.x;
@@ -36,7 +45,7 @@ void scanCallback(
             
             X= msg->twist.twist.angular.x;
             Y= msg->twist.twist.angular.y;
-            Z= msg->twist.twist.angular.z;        
+            Z= msg->twist.twist.angular.z;       
             
             double error1=distribution1(generator1);
             double error2=distribution2(generator2);
@@ -50,13 +59,13 @@ void scanCallback(
             z+=error2;
             w+=error2;
             
-            A+=error1;
+            /*A+=error1;
             B+=error1;
             C+=error1;
             
             X+=error2;
             Y+=error2;
-            Z+=error2;      
+            Z+=error2;*/      
             
             msg1.pose.pose.position.x=a;    
             msg1.pose.pose.position.y=b;
@@ -75,7 +84,9 @@ void scanCallback(
             msg1.twist.twist.angular.y=Y;
             msg1.twist.twist.angular.z=Z;
             
-            msg1.header = msg->header;
+            msg1.header.seq = msg->header.seq;
+            msg1.header.stamp = msg->header.stamp;
+            msg1.header.frame_id = msg->header.frame_id;
 	    msg1.child_frame_id = msg->child_frame_id;
             
             pub.publish(msg1);
