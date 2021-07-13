@@ -75,6 +75,9 @@ void scanCallback(
             msg1.twist.twist.angular.y=Y;
             msg1.twist.twist.angular.z=Z;
             
+            msg1.header = msg->header;
+	    msg1.child_frame_id = msg->child_frame_id;
+            
             pub.publish(msg1);
 
 	//ROS_INFO_STREAM_THROTTLE(2.0,"Working: " <<a<<" ");
