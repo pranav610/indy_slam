@@ -4,11 +4,20 @@
 #include <nav_msgs/Odometry.h>
 #include <cmath>
 #include <algorithm>
+#include <random>
+#include <cmath>
+
 ros::Publisher pub;
 void scanCallback(
 		const nav_msgs::Odometry::ConstPtr &msg) {
             
             nav_msgs::Odometry msg1;
+            
+            std::default_random_engine generator1;
+	    std::normal_distribution<double> distribution1(0.20,0.05);
+	    
+	    std::default_random_engine generator2;
+	    std::normal_distribution<double> distribution2(5*(M_PI)/180,2*(M_PI)/180);
             
             double a,b,c,x,y,z,w ;
             a= msg->pose.pose.position.x;
@@ -29,24 +38,25 @@ void scanCallback(
             Y= msg->twist.twist.angular.y;
             Z= msg->twist.twist.angular.z;        
             
-            double error=10;
+            double error1=distribution1(generator1);
+            double error2=distribution2(generator2);
             
-            a+=error;
-            b+=error;
-            c+=error;
+            a+=error1;
+            b+=error1;
+            c+=error1;
             
-            x+=error;
-            y+=error;
-            z+=error;
-            w+=error;
+            x+=error2;
+            y+=error2;
+            z+=error2;
+            w+=error2;
             
-            A+=error;
-            B+=error;
-            C+=error;
+            A+=error1;
+            B+=error1;
+            C+=error1;
             
-            X+=error;
-            Y+=error;
-            Z+=error;      
+            X+=error2;
+            Y+=error2;
+            Z+=error2;      
             
             msg1.pose.pose.position.x=a;    
             msg1.pose.pose.position.y=b;
