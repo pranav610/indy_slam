@@ -116,7 +116,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+#  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -206,5 +206,6 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_executable(indy_odom_node src/indy_odom_node.cpp)
+#add_executable(IndyOdomNode src/IndyOdomNode.cpp)
 target_link_libraries(indy_odom_node ${catkin_LIBRARIES})
-add_dependencies(indy_odom_node indy_slam_generate_messages_cpp)
+#add_dependencies(indy_odom_node indy_slam_generate_messages_cpp)

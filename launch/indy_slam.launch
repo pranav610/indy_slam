@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Launching the indy_odom_node node -->
+  <node name="indy_odom_node" pkg="indy_slam" type="indy_odom_node" output="screen">
+    <rosparam file="$(find indy_slam)/config/default_parameters.yaml" command="load"/>
+  </node>
+	
+  <!-- Launching RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find indy_slam)/rviz/indy_slam.rviz"/>
+  
+  <!-- Playing ROS Bag -->
+  <node pkg="rosbag" type="play" name="player" output="screen" args="/home/pranav/Downloads/carla_indy.bag"/>
+
+</launch>
